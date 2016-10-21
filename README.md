@@ -33,7 +33,7 @@ $ go run main.go
 
 ####Example Configuration
 
-Following json example shows how you can setup multiple url routers with different http headers. First handler will look for a http header named **api_version** and forward the incoming http request to desired versions of the rest api with json content. Second handler will look for a http header named **environment** and forward the request to desired environment of the SOAP web service with xml content.
+Following json example shows how you can setup multiple url routers with different http headers. First handler will look for a http header named **api_version** and forward the incoming http request to desired versions of the rest api with json content. Second handler will look for a http header named **environment** and forward the request to desired environment of the SOAP web service with xml content. Two of them can work together and you can add more handlers to work simultaneously.
 
 ```javascript
 {
