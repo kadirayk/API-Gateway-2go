@@ -1,0 +1,66 @@
+{
+	"router": {
+		"port": "8081",
+		"Handlers": [{
+			"listenPath": "/api/GetUsers",
+			"headerName": "api_version",
+			"DefaultForwardPath": {
+				"path": "https://www.example.com/api/v1/GetUsers",
+				"ContentType": "application/json",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			},
+			"ForwardPaths": [{
+				"condition": "1",
+				"path": "https://www.example.com/api/v1/GetUsers",
+				"ContentType": "application/json",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			}, {
+				"condition": "2",
+				"path": "https://www.example.com/api/v2/GetUsers",
+				"ContentType": "application/json",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			}]
+		}, {
+			"listenPath": "/service/UserService",
+			"headerName": "environment",
+			"DefaultForwardPath": {
+				"path": "https://test.example.com/service/UserService?WSDL",
+				"ContentType": "text/xml",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			},
+			"ForwardPaths": [{
+				"condition": "test",
+				"path": "https://test.example.com/service/UserService?WSDL",
+				"ContentType": "text/xml",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			}, {
+				"condition": "local",
+				"path": "http://localhost:8080/service/UserService?WSDL",
+				"ContentType": "text/xml"
+			}, {
+				"condition": "prod",
+				"path": "https://www.example.com/service/UserService?WSDL",
+				"ContentType": "text/xml",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			}]
+		}]
+	}
+}
