@@ -84,11 +84,13 @@ func HttpHandler(w http.ResponseWriter, r *http.Request, router Router) {
 	}
 
 	client := &http.Client{}
-	resp, _ := client.Do(req)
+	resp, err := client.Do(req)
+	CheckErr(err)
 
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
+	CheckErr(err)
 	fmt.Fprintf(w, string(body))
 
 }
@@ -117,7 +119,8 @@ func readConfig() Router {
 
 // convertRequest converts the incomming http.Request to the request specified in configuration file
 func convertRequest(r *http.Request, forwardPath ForwardPath) *http.Request {
-	req, _ := http.NewRequest(r.Method, forwardPath.Path, r.Body)
+	req, err := http.NewRequest(r.Method, forwardPath.Path, r.Body)
+	CheckErr(err)
 	req.Header.Set("Content-Type", forwardPath.ContentType)
 	req.SetBasicAuth(forwardPath.BasicAuth.Username, forwardPath.BasicAuth.Password)
 
@@ -126,8 +129,16 @@ func convertRequest(r *http.Request, forwardPath ForwardPath) *http.Request {
 
 // converts http.Request with default values specified in configuration file
 func convertRequestWithDefaultPath(r *http.Request, forwardPath DefaultForwardPath) *http.Request {
-	req, _ := http.NewRequest(r.Method, forwardPath.Path, r.Body)
+	req, err := http.NewRequest(r.Method, forwardPath.Path, r.Body)
+	CheckErr(err)
 	req.Header.Set("Content-Type", forwardPath.ContentType)
 	req.SetBasicAuth(forwardPath.BasicAuth.Username, forwardPath.BasicAuth.Password)
 	return req
+}
+
+func CheckErr(err error) {
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+	}
 }
