@@ -10,6 +10,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type JsonRoot struct {
@@ -91,7 +92,12 @@ func HttpHandler(w http.ResponseWriter, r *http.Request, router Router) {
 
 	body, err := ioutil.ReadAll(resp.Body)
 	CheckErr(err)
-	fmt.Fprintf(w, string(body))
+
+	//resp with original Content-Type
+	headerResp := strings.Join(resp.Header["Content-Type"], "")
+	w.Header().Set("Content-Type", headerResp)
+	w.Write([]byte(body))
+	// fmt.Fprintf(w, string(body))
 
 }
 

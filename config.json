@@ -61,6 +61,17 @@
 					"Password": "your_password"
 				}
 			}]
+		},{
+			"listenPath": "/go/image",
+			"headerName": "environment",
+			"DefaultForwardPath": {
+				"path": "https://golang.org/doc/gopher/frontpage.png",
+				"ContentType": "text/html",
+				"BasicAuth": {
+					"Username": "your_username",
+					"Password": "your_password"
+				}
+			}
 		}]
 	}
 }
